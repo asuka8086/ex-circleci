@@ -7,6 +7,8 @@ jobs:
       - checkout
       - save_cache:
           key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./
       - run:
           name: show message
           command: echo "hello world" # run command
