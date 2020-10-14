@@ -5,11 +5,11 @@ jobs:
       - image: circleci/node:4.8.2 # this is primary container to run.
     steps:
       - checkout
+      - save_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: show message
           command: echo "hello world" # run command
-      - save_cache:
-          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
   build2:
     docker:
       - image: circleci/node:4.8.2
