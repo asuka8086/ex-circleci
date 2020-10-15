@@ -41,8 +41,7 @@ jobs:
       - run: ls -al ./
       - aws-ecr/build-image:
           dockerfile: dockerfiles/Dockerfile
-          repo: foo
-          tag: latest
+          repo: sample-repo
 workflows:
   version: 2.1
   wf_name:
