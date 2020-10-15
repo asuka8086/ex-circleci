@@ -50,6 +50,7 @@ jobs:
       - restore_cache:
           key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
       - run: ls -al ./
+      - run echo ${SAMPLE}
       # - aws-ecr/build-image:
       #     dockerfile: dockerfiles/Dockerfile
       #     repo: sample-repo
@@ -82,7 +83,7 @@ workflows:
   # commit:
   #   triggers:
   #     - schedule:
-  #         cron: "* * * * *" # 毎週水曜日の14時
+  #         cron: "0 14 * * 3" # 毎週水曜日の14時
   #         filters:
   #           branches:
   #             only:
