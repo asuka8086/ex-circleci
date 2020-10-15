@@ -38,12 +38,11 @@ jobs:
     steps:
       - restore_cache:
           key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
-      - run: cd dockerfiles
-      - run: pwd
       - run: ls -al ./
       - aws-ecr/build-image:
           dockerfile: dockerfiles/Dockerfile
           repo: foo
+          tag: latest
 workflows:
   version: 2.1
   wf_name:
