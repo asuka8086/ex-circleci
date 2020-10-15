@@ -43,6 +43,30 @@ jobs:
       - run: echo "test 3."
       - run: ls -al ./
       - run: pwd
+  deploy-dev1:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - restore_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+      - run: ls -al ./
+      - run: echo ${SAMPLE}
+  deploy-dev2:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - restore_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+      - run: ls -al ./
+      - run: echo ${SAMPLE}
+  deploy-dev3:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - restore_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+      - run: ls -al ./
+      - run: echo ${SAMPLE}
   deploy:
     docker:
       - image: circleci/node:4.8.2
@@ -68,6 +92,33 @@ workflows:
       - test3:
           requires:
             - build
+      - hold-dev1:
+          type: approval
+          requires:
+            - test1
+            - test2
+            - test3
+      - hold-dev2:
+          type: approval
+          requires:
+            - test1
+            - test2
+            - test3
+      - hold-dev3:
+          type: approval
+          requires:
+            - test1
+            - test2
+            - test3
+      - deploy-dev1:
+          requires:
+            - hold-dev1
+      - deploy-dev2:
+          requires:
+            - hold-dev2
+      - deploy-dev3:
+          requires:
+            - hold-dev3
       - hold:
           type: approval
           filters:
