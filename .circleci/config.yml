@@ -39,3 +39,4 @@ workflows:
       - build2:
           requires:
             - build
+      - build3
