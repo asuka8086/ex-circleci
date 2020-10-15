@@ -50,7 +50,7 @@ jobs:
       - restore_cache:
           key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
       - run: ls -al ./
-      - run echo ${SAMPLE}
+      - run: echo ${SAMPLE}
       # - aws-ecr/build-image:
       #     dockerfile: dockerfiles/Dockerfile
       #     repo: sample-repo
