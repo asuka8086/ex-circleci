@@ -55,8 +55,8 @@ workflows:
           requires:
             - build2
             - build3
-      - aws-ecr/build-and-push-image:
+      - aws-ecr/build-image:
           requires:
             - deploy
           dockerfile: dockerfiles/Dockerfile
-          tag: "${CIRCLE_SHA1}"
+          repo: foo
