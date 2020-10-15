@@ -59,4 +59,4 @@ workflows:
             - build3
       - deploy:
           requires:
-            - hold:
+            - hold
