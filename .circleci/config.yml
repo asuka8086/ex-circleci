@@ -69,27 +69,33 @@ workflows:
             - build
       - hold:
           type: approval
+          filters:
+            branches:
+              only: master
           requires:
             - test1
             - test2
             - test3
-  commit:
-    triggers:
-      - schedule:
-          cron: "* * * * *" # 毎週水曜日の14時
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - build
-      - test1:
-          requires:
-            - build
-      - hold:
-          type: approval
-          requires:
-            - test1
       - deploy:
           requires:
             - hold
+  # commit:
+  #   triggers:
+  #     - schedule:
+  #         cron: "* * * * *" # 毎週水曜日の14時
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #   jobs:
+  #     - build
+  #     - test1:
+  #         requires:
+  #           - build
+  #     - hold:
+  #         type: approval
+  #         requires:
+  #           - test1
+  #     - deploy:
+  #         requires:
+  #           - hold
