@@ -16,20 +16,31 @@ jobs:
           command: echo "hello world" # run command
       - run: ls -al ./
       - run: pwd
-  build2:
+  test1:
     docker:
       - image: circleci/node:4.8.2
     steps:
       - restore_cache:
           key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
-      - run: echo "build 2."
+      - run: echo "test 1."
       - run: ls -al ./
       - run: pwd
-  build3:
+  test2:
     docker:
       - image: circleci/node:4.8.2
     steps:
-      - run: echo "build 3."
+      - restore_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+      - run: echo "test 2."
+      - run: ls -al ./
+      - run: pwd
+  test3:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - restore_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+      - run: echo "test 3."
       - run: ls -al ./
       - run: pwd
   deploy:
@@ -47,15 +58,21 @@ workflows:
   wf_name:
     jobs:
       - build
-      - build2:
+      - test1:
           requires:
             - build
-      - build3:
+      - test2:
+          requires:
+            - build
+      - test3:
+          requires:
+            - build
       - hold:
           type: approval
           requires:
-            - build2
-            - build3
+            - test1
+            - test2
+            - test3
       - deploy:
           requires:
             - hold
