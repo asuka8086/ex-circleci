@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@0.0.10
 jobs:
   build:
     docker:
@@ -30,6 +32,20 @@ jobs:
       - run: echo "build 3."
       - run: ls -al ./
       - run: pwd
+  deploy:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - restore_cache:
+          key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
+      - run: cd dockerfiles
+      - run: pwd
+      - run: ls -al ./
+      - aws-ecr/build_and_push_image:
+          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"
 
 workflows:
   version: 2.1
@@ -40,3 +56,7 @@ workflows:
           requires:
             - build
       - build3
+      - deploy:
+          requires:
+            - build2
+            - build3
