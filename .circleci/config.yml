@@ -55,7 +55,7 @@ jobs:
       #     repo: sample-repo
 workflows:
   version: 2.1
-  wf_name:
+  test:
     jobs:
       - build
       - test1:
@@ -73,6 +73,21 @@ workflows:
             - test1
             - test2
             - test3
+  commit:
+    triggers:
+      - schadule:
+          filters:
+            only:
+              - master
+    jobs:
+      - build
+      - test1:
+          requires:
+            - build
+      - hold:
+          type: approval
+          requires:
+            - test1
       - deploy:
           requires:
             - hold
