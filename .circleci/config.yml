@@ -12,6 +12,7 @@ jobs:
       - run:
           name: show message
           command: echo "hello world" # run command
+      - run: ls -al ./
   build2:
     docker:
       - image: circleci/node:4.8.2
@@ -19,6 +20,7 @@ jobs:
       - restore_cache:
           key: ex-cache-{{ .Environment.CIRCLE_SHA1 }}
       - run: echo "build 2."
+      - run: ls -al ./
 
 workflow:
   version: 2.1
