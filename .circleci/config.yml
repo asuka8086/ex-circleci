@@ -32,6 +32,8 @@ jobs:
       - run: echo "build 3."
       - run: ls -al ./
       - run: pwd
+  hold:
+    type: approval
   deploy:
     docker:
       - image: circleci/node:4.8.2
@@ -50,8 +52,11 @@ workflows:
       - build2:
           requires:
             - build
-      - build3
-      - deploy:
+      - build3:
+      - hold:
           requires:
             - build2
             - build3
+      - deploy:
+          requires:
+            - hold:
