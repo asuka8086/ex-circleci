@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@0.0.10
+  aws-ecr: circleci/aws-ecr@6.12.2
 jobs:
   build:
     docker:
@@ -58,7 +58,5 @@ workflows:
       - aws-ecr/build_and_push_image:
           requires:
             - deploy
-          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          region: ${AWS_DEFAULT_REGION}
+          dockerfile: dockerfiles/Dockerfile
           tag: "${CIRCLE_SHA1}"
