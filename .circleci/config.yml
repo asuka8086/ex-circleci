@@ -41,7 +41,11 @@ jobs:
       - run: cd dockerfiles
       - run: pwd
       - run: ls -al ./
-
+      - aws-ecr/build-image:
+          requires:
+            - deploy
+          dockerfile: dockerfiles/Dockerfile
+          repo: foo
 workflows:
   version: 2.1
   wf_name:
@@ -55,8 +59,3 @@ workflows:
           requires:
             - build2
             - build3
-      - aws-ecr/build-image:
-          requires:
-            - deploy
-          dockerfile: dockerfiles/Dockerfile
-          repo: foo
