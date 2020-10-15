@@ -76,6 +76,7 @@ workflows:
   commit:
     triggers:
       - schedule:
+          cron: "0 14 * * 3" # 毎週水曜日の14時
           filters:
             branches:
               only:
