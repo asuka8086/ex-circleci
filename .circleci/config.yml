@@ -77,8 +77,9 @@ workflows:
     triggers:
       - schedule:
           filters:
-            only:
-              - master
+            branches:
+              only:
+                - master
     jobs:
       - build
       - test1:
